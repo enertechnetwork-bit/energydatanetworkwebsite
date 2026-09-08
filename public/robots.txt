@@ -1,0 +1,12 @@
+# Allow all web crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://energydatanetwork.com/sitemap.xml
+
+# Crawl-delay (optional, be nice to your server)
+Crawl-delay: 1
+
+# Disallow admin/private paths (if any)
+Disallow: /api/

@@ -1,0 +1,102 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # If the request is for an existing file or directory, serve it directly
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  
+  # Otherwise, redirect all requests to index.html for client-side routing
+  RewriteRule ^ index.html [QSA,L]
+</IfModule>
+
+# Enable Gzip/Brotli compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml application/xml text/xml
+</IfModule>
+
+# Serve pre-compressed files if available
+<IfModule mod_headers.c>
+  # Serve brotli compressed files if they exist
+  RewriteCond %{HTTP:Accept-Encoding} br
+  RewriteCond %{REQUEST_FILENAME}.br -f
+  RewriteRule ^(.*)$ $1.br [L]
+  
+  # Serve gzip compressed files if they exist
+  RewriteCond %{HTTP:Accept-Encoding} gzip
+  RewriteCond %{REQUEST_FILENAME}.gz -f
+  RewriteRule ^(.*)$ $1.gz [L]
+  
+  # Set correct content types for compressed files
+  <FilesMatch "\.js\.br$">
+    Header set Content-Encoding br
+    Header set Content-Type application/javascript
+  </FilesMatch>
+  <FilesMatch "\.css\.br$">
+    Header set Content-Encoding br
+    Header set Content-Type text/css
+  </FilesMatch>
+  <FilesMatch "\.js\.gz$">
+    Header set Content-Encoding gzip
+    Header set Content-Type application/javascript
+  </FilesMatch>
+  <FilesMatch "\.css\.gz$">
+    Header set Content-Encoding gzip
+    Header set Content-Type text/css
+  </FilesMatch>
+</IfModule>
+
+# Aggressive caching for static assets
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+  
+  # HTML - no cache (always fresh)
+  ExpiresByType text/html "access plus 0 seconds"
+  
+  # Images - 1 year cache
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  
+  # CSS & JS - 1 year (Vite adds hashes to filenames)
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  
+  # Fonts - 1 year
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/ttf "access plus 1 year"
+  ExpiresByType application/font-woff2 "access plus 1 year"
+  
+  # JSON/XML - 1 day
+  ExpiresByType application/json "access plus 1 day"
+  ExpiresByType application/xml "access plus 1 day"
+</IfModule>
+
+# Cache-Control headers
+<IfModule mod_headers.c>
+  # Hashed assets (immutable)
+  <FilesMatch "\.[a-f0-9]{8}\.(js|css|woff2|woff|ttf|png|jpg|jpeg|gif|svg|webp|avif)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  
+  # HTML - no cache
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
+  
+  # Security headers
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Enable Keep-Alive
+<IfModule mod_headers.c>
+  Header set Connection keep-alive
+</IfModule>

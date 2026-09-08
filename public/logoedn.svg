@@ -1,0 +1,46 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="250" cy="250" r="240" fill="#000000" />
+
+  <path d="M220 190 
+           C 220 170, 240 160, 260 165 
+           L 270 165 
+           L 280 175 
+           L 300 175 
+           L 320 200 
+           L 335 210 
+           L 325 240 
+           L 310 250 
+           L 305 270 
+           L 280 285 
+           L 270 270 
+           L 270 250
+           L 250 250
+           L 220 200 Z" 
+        fill="none" 
+        stroke="#00FF66" 
+        stroke-width="4" 
+        stroke-linejoin="round" 
+        stroke-linecap="round"/>
+
+  <g fill="#FFFFFF">
+
+    <path d="M170 195 L215 195 L215 210 L190 210 L190 225 L210 225 L210 240 L190 240 L190 255 L215 255 L215 270 L170 270 Z" />
+
+    <path d="M225 195 L255 195 C 280 195, 280 270, 255 270 L 225 270 Z" />
+
+    <path d="M288 195 L350 195 L350 212 L329 212 L329 270 L309 270 L309 212 L288 212 Z" />
+  </g>
+
+  <path d="M245 190 L255 190 L248 225 L260 225 L235 280 L242 240 L230 240 Z" fill="#000000" stroke="#000000" stroke-width="2"/>
+
+  <text x="250" y="315" 
+        font-family="Arial, Helvetica, sans-serif" 
+        font-size="22" 
+        fill="#FFFFFF" 
+        text-anchor="middle"
+        font-weight="normal"
+        letter-spacing="-0.5">
+    Energy Data <tspan font-weight="normal">Technology</tspan>
+  </text>
+
+</svg>
